@@ -561,7 +561,6 @@ button.lg-item {
 button.lg-item:hover { background: var(--cream); color: var(--ink); }
 button.lg-item[aria-pressed="true"] { background: var(--ink); color: #fff; }
 .legend.has-kind [data-kind][aria-pressed="false"], .legend.has-tier [data-tier][aria-pressed="false"] { opacity: 0.45; }
-.legend.has-kind .lg-all[data-kind], .legend.has-tier .lg-all[data-tier] { opacity: 1; }
 button.lg-item.lg-all { font-weight: 600; }
 .legend.has-kind [data-kind][aria-pressed="false"]:hover, .legend.has-tier [data-tier][aria-pressed="false"]:hover { opacity: 1; }
 .lg-keys { display: inline-flex; align-items: center; gap: 2px; }
