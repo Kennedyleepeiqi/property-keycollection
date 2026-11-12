@@ -165,19 +165,20 @@ function renderCoverage() {
 }
 
 // The map key doubles as a filter: click a pin type or a key colour, click again to clear.
-const tierValue = (t) => (t === "now" ? "now" : `tier:${t}`);
+const tierValue = (t) => (t === "all" ? "all" : t === "now" ? "now" : `tier:${t}`);
 function syncLegend() {
   const lg = $("legend");
   lg.querySelectorAll("[data-kind]").forEach((b) => b.setAttribute("aria-pressed", String(state.kind === b.dataset.kind)));
   lg.querySelectorAll("[data-tier]").forEach((b) => b.setAttribute("aria-pressed", String(state.month === tierValue(b.dataset.tier))));
-  lg.classList.toggle("has-kind", !!lg.querySelector('[data-kind][aria-pressed="true"]'));
-  lg.classList.toggle("has-tier", !!lg.querySelector('[data-tier][aria-pressed="true"]'));
+  lg.classList.toggle("has-kind", !!lg.querySelector('[data-kind]:not([data-kind="all"])[aria-pressed="true"]'));
+  lg.classList.toggle("has-tier", !!lg.querySelector('[data-tier]:not([data-tier="all"])[aria-pressed="true"]'));
 }
 $("legend").addEventListener("click", (e) => {
   const b = e.target.closest("button");
   if (!b) return;
-  if (b.dataset.kind) state.kind = state.kind === b.dataset.kind ? "all" : b.dataset.kind;
-  if (b.dataset.tier) { const v = tierValue(b.dataset.tier); state.month = state.month === v ? "all" : v; }
+  // "All" always shows everything; a type or key colour toggles on and off.
+  if (b.dataset.kind) state.kind = b.dataset.kind === "all" || state.kind === b.dataset.kind ? "all" : b.dataset.kind;
+  if (b.dataset.tier) { const v = tierValue(b.dataset.tier); state.month = v === "all" || state.month === v ? "all" : v; }
   update();
 });
 
