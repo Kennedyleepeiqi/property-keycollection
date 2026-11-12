@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Key Collections · Rezt+Relax</title>
+  <meta name="description" content="Internal Rezt+Relax map of HDB BTOs, condos and ECs due for key collection, for targeting marketing.">
+  <!-- Link preview for WhatsApp, Telegram and email -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bto-keys-map.vercel.app/">
+  <meta property="og:title" content="Key Collections Map · Rezt+Relax">
+  <meta property="og:description" content="35 HDB BTOs, condos and ECs with keys due up to Jun 2027, on one map.">
+  <meta property="og:image" content="https://api.mapbox.com/styles/v1/mapbox/light-v11/static/pin-s+c9a25c(103.8856,1.3606),pin-s+c9a25c(103.8532,1.3522),pin-s+c9a25c(103.7458,1.3972),pin-s+c9a25c(103.7483,1.3746),pin-s+c9a25c(103.7221,1.3402),pin-s+c9a25c(103.8504,1.3173),pin-s+c9a25c(103.8568,1.3208),pin-s+c9a25c(103.7272,1.3569),pin-s+c9a25c(103.7957,1.4269),pin-s+c9a25c(103.8083,1.2732),pin-s+c9a25c(103.7377,1.3661),pin-s+c9a25c(103.8387,1.3557),pin-s+26231f(103.8904,1.3079),pin-s+26231f(103.7908,1.4285),pin-s+26231f(103.7641,1.3735),pin-s+26231f(103.8447,1.2915),pin-s+26231f(103.8332,1.3833),pin-s+26231f(103.7763,1.3193),pin-s+26231f(103.8338,1.3851),pin-s+26231f(103.8396,1.2953),pin-s+26231f(103.8994,1.3065),pin-s+26231f(103.7256,1.3358),pin-s+26231f(103.8342,1.3834),pin-s+26231f(103.7893,1.3044),pin-s+26231f(103.7902,1.3034),pin-s+26231f(103.8290,1.2999),pin-s+26231f(103.9602,1.3789),pin-s+26231f(103.7933,1.2779),pin-s+26231f(103.7635,1.3621),pin-s+26231f(103.7370,1.3491),pin-s+26231f(103.8464,1.3031),pin-s+26231f(103.8957,1.3110),pin-s+26231f(103.7254,1.3343),pin-s+26231f(103.8346,1.3820),pin-s+26231f(103.8109,1.3292)/103.825,1.352,10.4/1200x630?access_token=%VITE_MAPBOX_TOKEN%">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#fcfbf8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500&display=swap">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <!-- Vercel Web Analytics: visitor counts (switch on in the Vercel project's Analytics tab) -->
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="side" id="side">
+      <button class="grab" id="grab" type="button" aria-label="Expand or collapse the list"></button>
+
+      <header class="mast">
+        <img class="mark" src="/mark-r-gold.png" alt="Rezt+Relax" width="14" height="21">
+        <div class="mast-text">
+          <h1>Key collections</h1>
+          <p class="lede">HDB BTOs, condos and ECs</p>
+        </div>
+        <span class="tagint">Internal</span>
+        <button class="sheetbtn" id="sheetBtn" type="button" aria-expanded="false" aria-controls="side">Show list</button>
+      </header>
+
+      <div class="coverage" id="coverage"></div>
+
+      <div class="search">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 13l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="Search a project, area or street" autocomplete="off" enterkeyhint="search" aria-label="Search projects">
+      </div>
+
+      <div class="controls" id="controls">
+        <div class="ctl-head">
+          <button class="filtbtn" id="filtBtn" type="button" aria-expanded="false" aria-controls="controls">Filters</button>
+          <span class="ctl-title">Filters</span>
+          <button class="reset" id="reset" type="button" hidden>✕ Clear filters</button>
+        </div>
+        <div class="ctl-body">
+          <div class="fld"><span id="lblKind">Type of home</span><div class="seg kind" id="fKind" role="radiogroup" aria-labelledby="lblKind"></div></div>
+          <label class="fld"><span>When are keys due?</span><select id="fMonth"></select></label>
+          <div class="fld"><span id="lblArea">Area</span><div class="chips" id="fRegion" role="radiogroup" aria-labelledby="lblArea"></div></div>
+          <label class="fld" id="fldType" hidden><span>HDB flat size</span>
+            <select id="fType">
+              <option value="">Any size</option>
+              <option value="3R">Has 3-room</option>
+              <option value="4R">Has 4-room</option>
+              <option value="5R">Has 5-room</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="totals" aria-live="polite">
+        <span id="sProj">–</span>
+        <span><b id="sUnits">–</b> homes</span>
+        <span class="t-big"><b id="sBig">–</b> 4–5 room HDB</span>
+      </div>
+
+      <div class="groups" id="groups"></div>
+
+      <footer class="colophon">
+        <span id="colophonNote">Dates are estimates</span>
+        <div class="more">
+          <button class="morebtn" id="moreBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="More options">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="10" r="1.7"/><circle cx="10" cy="10" r="1.7"/><circle cx="16" cy="10" r="1.7"/></svg>
+          </button>
+          <div class="menu" id="menu" hidden>
+            <button type="button" id="copyBtn">Copy list as table</button>
+            <div class="menu-note">
+              BTO dates are HDB's estimated completion (TOP) from <a href="https://www.btohq.com/bto-top-tracker" target="_blank" rel="noopener">BTOHQ</a> and <a href="https://renovationcontractorsingapore.com/blogs/news/hdb-bto-completion-date-tracker-2025-singapore-guide" target="_blank" rel="noopener">RCS</a>; keys go out block by block. Condo and EC dates come from developers and property news (each card links its source) and are less exact. Use ↑ ↓ to step through projects.
+            </div>
+          </div>
+        </div>
+      </footer>
+    </aside>
+
+    <main class="stage">
+      <div id="map" aria-label="Map of Singapore with housing projects due for key collection"></div>
+      <div class="loading" id="loading">
+        <img src="/mark-r-gold.png" alt="" width="22" height="33">
+        <span>Loading map</span>
+      </div>
+      <div class="maptools">
+        <button class="tool" id="btnOverview" type="button" title="Zoom out to all of Singapore">
+          <svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10"/></svg>
+          All of Singapore
+        </button>
+        <div class="legend" id="legend" role="group" aria-label="Map key. Click to filter">
+          <button class="lg-item" type="button" data-kind="bto" aria-pressed="false" title="Show only HDB BTOs"><svg class="lg-pin" viewBox="0 0 52 72" aria-hidden="true"><path d="M26 3.2C14.6 3.2 5.4 12.6 5.4 24.2 5.4 38.6 26 68.6 26 68.6S46.6 38.6 46.6 24.2C46.6 12.6 37.4 3.2 26 3.2Z"/></svg>HDB BTO</button>
+          <button class="lg-item" type="button" data-kind="private" aria-pressed="false" title="Show only condos and ECs"><svg class="lg-pin dark" viewBox="0 0 52 72" aria-hidden="true"><path d="M26 3.2C14.6 3.2 5.4 12.6 5.4 24.2 5.4 38.6 26 68.6 26 68.6S46.6 38.6 46.6 24.2C46.6 12.6 37.4 3.2 26 3.2Z"/></svg>Condo / EC</button>
+          <span class="lg-keys">
+            <span class="lg-sep" aria-hidden="true"></span>
+            <span class="lg-title">Keys</span>
+            <button class="lg-item" type="button" data-tier="now" aria-pressed="false" title="Keys out now"><i class="dot now"></i>Now</button>
+            <button class="lg-item" type="button" data-tier="dec" aria-pressed="false" title="Keys due by end of 2026"><i class="dot dec"></i>End '26</button>
+            <button class="lg-item" type="button" data-tier="q1" aria-pressed="false" title="Keys due Jan–Mar 2027"><i class="dot q1"></i>Q1 '27</button>
+            <button class="lg-item" type="button" data-tier="jun" aria-pressed="false" title="Keys due Apr–Jun 2027"><i class="dot jun"></i>Q2 '27</button>
+          </span>
+        </div>
+      </div>
+      <article class="detail" id="detail" hidden aria-live="polite"></article>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <div class="notoken" id="notoken" hidden>
+    <p><b>Map unavailable</b></p>
+    <p>Add a public Mapbox token as <code>VITE_MAPBOX_TOKEN</code> in Vercel, then redeploy.</p>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
