@@ -2,6 +2,8 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./style.css";
 import { PROJECTS, TIERS, TYPE_LABEL, TODAY, COVERAGE } from "./data.js";
+import { MEDIA } from "./media.js";
+import { openImages, openPdf } from "./viewer.js";
 
 const REGIONS = ["West", "North", "North-East", "East", "Central"].filter((r) => PROJECTS.some((p) => p.region === r));
 const KIND_LABEL = { bto: "HDB BTO", condo: "Condo", ec: "EC" };
@@ -228,12 +230,39 @@ function renderTotals(vis) {
 
 /* ---------------- Detail card ---------------- */
 // WhatsApp share: a short line about the project plus a link that opens the map on it.
-// Photos and floor plans open a Google Images search, so new projects work without extra setup.
-const imageSearch = (p, extra) => {
-  const kind = p.kind === "bto" ? "BTO" : p.kind === "ec" ? "EC" : "condo";
-  const q = extra ? `${p.name} ${kind} ${extra}` : `${p.name} ${kind} Singapore`;
-  return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
+// Pictures and floor plans come from media.js and open in the in-page viewer.
+const hostOf = (u) => new URL(u, location.href).hostname.replace(/^www\./, "");
+const mediaItems = (p) => {
+  const m = MEDIA[p.id];
+  if (!m) return [];
+  return [...(m.exterior ? [{ label: "Building (artist's impression)", src: m.exterior }] : []), ...m.plans];
 };
+function mediaTop(p) {
+  const m = MEDIA[p.id];
+  if (!m || !m.exterior) return "";
+  return `<button class="hero" type="button" data-act="photo" aria-label="View pictures of ${esc(p.name)}">
+      <img src="${esc(m.exterior)}" alt="${esc(p.name)}, artist's impression" loading="lazy" referrerpolicy="no-referrer">
+      <span class="credit">Artist's impression · ${esc(hostOf(m.exterior))}</span>
+    </button>`;
+}
+function mediaPlans(p) {
+  const m = MEDIA[p.id];
+  if (!m) return "";
+  if (m.brochure) {
+    return `<div class="plansec"><div class="mixhead">Floor plans</div>
+      <button class="brochure" type="button" data-act="brochure">
+        <span class="bi" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3M6 9h4M6 11.5h4"/></svg></span>
+        <span>HDB sales brochure<small>Layouts for every flat type, opens here</small></span>
+      </button></div>`;
+  }
+  if (!m.plans.length) return "";
+  return `<div class="plansec"><div class="mixhead">Floor plans <span class="hint">Tap to enlarge</span></div>
+    <div class="plans">${m.plans.map((pl, i) => `
+      <button class="plan" type="button" data-act="plan" data-i="${i}">
+        <span class="pimg"><img src="${esc(pl.src)}" alt="${esc(pl.label)} floor plan" loading="lazy" referrerpolicy="no-referrer"></span>
+        <span class="plbl">${esc(pl.label)}</span>
+      </button>`).join("")}</div></div>`;
+}
 const projectLink = (p) => `${location.origin}${location.pathname}#${p.id}`;
 const waLink = (p) => {
   const when = p.tier === "now" ? whenText(p) : `Keys due ${topLabel(p)}`;
@@ -278,6 +307,7 @@ function renderDetail() {
     <h3></h3>
     <p class="when">${whenText(p)}${idx >= 0 ? ` <span class="dcount">· ${idx + 1} of ${list.length}</span>` : ""}</p>
     <div class="dbody">
+      ${mediaTop(p)}
       <dl class="kv">
         <dt>Type</dt><dd>${isPrivate(p) ? `${KIND_LABEL[p.kind]}${p.tenure ? ` · ${esc(p.tenure)}` : ""}` : `HDB BTO · launched ${esc(p.launch)}`}</dd>
         ${p.developer ? `<dt>Developer</dt><dd>${esc(p.developer)}</dd>` : ""}
@@ -296,9 +326,8 @@ function renderDetail() {
       </div>
       <div class="mixhead">${isPrivate(p) ? "Unit mix" : "Flat mix"}</div>
       <div class="mix">${mix}</div>
+      ${mediaPlans(p)}
       <div class="actions">
-        <a class="btn ghost" href="${imageSearch(p, "")}" target="_blank" rel="noopener" title="Pictures of the building, opens Google Images">Photos</a>
-        <a class="btn ghost" href="${imageSearch(p, "floor plan")}" target="_blank" rel="noopener" title="Unit layouts, opens Google Images">Floor plans</a>
         <a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Google Maps</a>
         <button class="btn ghost" type="button" data-act="copy">Copy location</button>
         <a class="btn ghost" style="grid-column: 1 / -1" href="${waLink(p)}" target="_blank" rel="noopener">Share on WhatsApp</a>
@@ -308,6 +337,11 @@ function renderDetail() {
   card.querySelector(".f-town").textContent = `${p.town} (${p.region})`;
   card.querySelector(".f-st").textContent = p.street;
   card.querySelector(".f-note").textContent = p.note;
+  // A picture that fails to load is removed instead of showing a broken image.
+  card.querySelectorAll(".hero img, .plan img").forEach((img) => img.addEventListener("error", () => {
+    img.closest(".hero, .plan")?.remove();
+    if (!card.querySelector(".plan, .brochure")) card.querySelector(".plansec")?.remove();
+  }));
   card.hidden = false;
 }
 
@@ -320,6 +354,13 @@ $("detail").addEventListener("click", (e) => {
   if (act === "close") select(null);
   if (act === "collapse") { state.collapsed = !state.collapsed; renderDetail(); }
   if (act === "radius") { state.radius = !state.radius; renderDetail(); updateRing(); }
+  if (act === "photo") openImages(p.name, mediaItems(p), 0);
+  if (act === "plan") {
+    const items = mediaItems(p);
+    const src = MEDIA[p.id].plans[Number(e.target.closest("[data-i]").dataset.i)].src;
+    openImages(p.name, items, Math.max(0, items.findIndex((x) => x.src === src)));
+  }
+  if (act === "brochure") openPdf(p.name, MEDIA[p.id].brochure, MEDIA[p.id].brochureSrc);
   if (act === "copy") copy(`${p.name}, ${p.street} (${p.lat.toFixed(5)}, ${p.lng.toFixed(5)})`, "Location copied");
 });
 

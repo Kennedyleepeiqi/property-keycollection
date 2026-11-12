@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/bto-pdf/:path*", "destination": "https://btohq.sgp1.cdn.digitaloceanspaces.com/bto/:path*" }
+  ]
+}
