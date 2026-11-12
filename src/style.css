@@ -855,3 +855,7 @@ html.viewer-open, html.viewer-open body { overflow: hidden; }
 .vfoot[hidden] { display: none; }
 .vcap { flex: 1; text-align: center; font-size: 13.5px; }
 .vprev[hidden], .vnext[hidden], .vlink[hidden] { visibility: hidden; display: grid; }
+.vjump { display: block; }
+.vjump br { display: none; }
+.vjump button { margin: 6px 6px 0 0; padding: 4px 10px; border: 1px solid #4a4642; border-radius: 999px; background: var(--ink-2); color: #f1ede4; font-size: 12px; cursor: pointer; }
+.vjump button:hover { border-color: var(--champagne); }

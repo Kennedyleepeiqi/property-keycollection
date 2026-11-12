@@ -231,7 +231,10 @@ function renderTotals(vis) {
 /* ---------------- Detail card ---------------- */
 // WhatsApp share: a short line about the project plus a link that opens the map on it.
 // Pictures and floor plans come from media.js and open in the in-page viewer.
-const hostOf = (u) => new URL(u, location.href).hostname.replace(/^www\./, "");
+const hostOf = (u) => {
+  const h = new URL(u, location.href).hostname.replace(/^www\./, "");
+  return h.includes("digitaloceanspaces") ? "btohq.com" : h.includes("sanity.io") ? "terra-hill.sg" : h;
+};
 const mediaItems = (p) => {
   const m = MEDIA[p.id];
   if (!m) return [];

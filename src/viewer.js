@@ -136,7 +136,7 @@ export async function openPdf(title, url, original) {
     countEl.textContent = `HDB sales brochure · ${doc.numPages} pages`;
     const first = await doc.getPage(1);
     const vp1 = first.getViewport({ scale: 1 });
-    body.innerHTML = `<p class="vhint">Floor plans are in the later pages. Scroll down.</p>`;
+    body.innerHTML = `<p class="vhint">Floor plans are in the later pages. Scroll down.<span class="vjump"></span></p>`;
     const io = new IntersectionObserver((entries) => {
       for (const en of entries) {
         if (!en.isIntersecting) continue;
@@ -153,11 +153,36 @@ export async function openPdf(title, url, original) {
       body.appendChild(box);
       io.observe(box);
     }
+    findPlanPages(doc, job);
   } catch (err) {
     if (job !== pdfJob) return;
     console.warn("Brochure failed to load", err);
     body.innerHTML = `<div class="vspin">The brochure couldn't load here.<br><a href="${original || url}" target="_blank" rel="noopener noreferrer">Open the PDF instead</a></div>`;
   }
+}
+
+// Look through the brochure text for unit layout pages ("floor area") and add shortcuts to them.
+async function findPlanPages(doc, job) {
+  const hits = [];
+  for (let n = 1; n <= doc.numPages; n++) {
+    if (job !== pdfJob) return;
+    try {
+      const page = await doc.getPage(n);
+      const tc = await page.getTextContent();
+      const text = tc.items.map((t) => t.str).join(" ");
+      if (/floor\s*area|unit\s*layout|typical\s*floor\s*plan/i.test(text)) hits.push(n);
+    } catch (_) { /* skip page */ }
+  }
+  if (job !== pdfJob || !hits.length) return;
+  const slot = body.querySelector(".vjump");
+  if (!slot) return;
+  slot.innerHTML = `<br>Jump to floor plans: ${hits.map((n) => `<button type="button" data-p="${n}">p.${n}</button>`).join("")}`;
+  body.querySelector(".vhint").textContent = "";
+  body.querySelector(".vhint").appendChild(slot);
+  slot.addEventListener("click", (e) => {
+    const n = e.target.closest("[data-p]")?.dataset.p;
+    if (n) body.querySelector(`.vpage[data-n="${n}"]`)?.scrollIntoView({ block: "start" });
+  });
 }
 
 async function drawPage(doc, n, box, job) {
