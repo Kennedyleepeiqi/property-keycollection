@@ -262,7 +262,8 @@ function syncGallery(g) {
   const track = g.querySelector(".gtrack");
   const slides = [...track.children];
   if (!slides.length) { g.remove(); return; }
-  const i = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / track.clientWidth)));
+  const raw = track.clientWidth ? Math.round(track.scrollLeft / track.clientWidth) : 0;
+  const i = Math.max(0, Math.min(slides.length - 1, raw || 0));
   g.querySelector(".credit").textContent = slides[i].querySelector("img").dataset.cap;
   const c = g.querySelector(".gcount");
   if (c) c.textContent = `${i + 1} / ${slides.length}`;
