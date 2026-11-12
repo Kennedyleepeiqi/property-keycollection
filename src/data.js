@@ -1,6 +1,7 @@
 // HDB BTO projects with estimated key collection (HDB estimated TOP) between Sep 2026 and Jun 2027.
 // Sources: BTOHQ TOP tracker + project pages, RCS completion tracker, 99.co (checked 9 Nov 2026).
 // `top` is year-month of HDB's estimated completion. Keys go out block by block after TOP.
+// When you add a project here, also add its picture and floor plans to src/media.js (same id).
 
 export const TODAY = new Date(2026, 10, 12); // the day the dates below were last checked
 
