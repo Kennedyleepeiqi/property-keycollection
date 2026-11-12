@@ -249,6 +249,7 @@ function mediaTop(p) {
   return `<div class="gallery">
       <div class="gtrack">${photos.map((ph, i) => `
         <button class="gslide" type="button" data-act="photo" data-i="${i}" aria-label="View photo ${i + 1} of ${photos.length}">
+          <img class="gbg" src="${esc(ph.src)}" alt="" aria-hidden="true" loading="${i === 0 ? "eager" : "lazy"}" referrerpolicy="no-referrer">
           <img src="${esc(ph.src)}" alt="${esc(p.name)}: ${esc(ph.caption)}" loading="${i === 0 ? "eager" : "lazy"}" referrerpolicy="no-referrer" data-cap="${esc(ph.caption)} · ${esc(hostOf(ph.src))}">
         </button>`).join("")}</div>
       <span class="credit"></span>
@@ -264,7 +265,7 @@ function syncGallery(g) {
   if (!slides.length) { g.remove(); return; }
   const raw = track.clientWidth ? Math.round(track.scrollLeft / track.clientWidth) : 0;
   const i = Math.max(0, Math.min(slides.length - 1, raw || 0));
-  g.querySelector(".credit").textContent = slides[i].querySelector("img").dataset.cap;
+  g.querySelector(".credit").textContent = slides[i].querySelector("img:not(.gbg)").dataset.cap;
   const c = g.querySelector(".gcount");
   if (c) c.textContent = `${i + 1} / ${slides.length}`;
   const prev = g.querySelector(".gnav.prev"), next = g.querySelector(".gnav.next");
@@ -371,11 +372,16 @@ function renderDetail() {
   }));
   const gal = card.querySelector(".gallery");
   if (gal) {
-    gal.querySelectorAll("img").forEach((img) => img.addEventListener("error", () => {
+    gal.querySelectorAll("img:not(.gbg)").forEach((img) => img.addEventListener("error", () => {
       img.closest(".gslide")?.remove();
       gal.querySelectorAll(".gslide").forEach((b, k) => { b.dataset.i = k; });
       syncGallery(gal);
     }));
+    // Wide-ish photos fill the box; tall or very wide ones are shown whole on a blurred backdrop.
+    gal.querySelectorAll(".gslide img:not(.gbg)").forEach((img) => {
+      const fit = () => { const r = img.naturalWidth / img.naturalHeight; img.closest(".gslide").classList.toggle("fill", r > 1.5 && r < 2.0); };
+      if (img.complete && img.naturalWidth) fit(); else img.addEventListener("load", fit, { once: true });
+    });
     gal.querySelector(".gtrack").addEventListener("scroll", () => syncGallery(gal), { passive: true });
     syncGallery(gal);
   }
@@ -392,7 +398,7 @@ $("detail").addEventListener("click", (e) => {
   if (act === "collapse") { state.collapsed = !state.collapsed; renderDetail(); }
   if (act === "radius") { state.radius = !state.radius; renderDetail(); updateRing(); }
   if (act === "photo") {
-    const src = e.target.closest(".gslide")?.querySelector("img")?.getAttribute("src");
+    const src = e.target.closest(".gslide")?.querySelector("img:not(.gbg)")?.getAttribute("src");
     const items = mediaItems(p);
     openImages(p.name, items, Math.max(0, items.findIndex((x) => x.src === src)));
   }

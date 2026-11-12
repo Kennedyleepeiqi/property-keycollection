@@ -206,7 +206,7 @@ export const MEDIA = {
     ]),
   },
   "orchard-sophia": {
-    exterior: "https://www.the-orchardsophia.com/wp-content/uploads/2023/08/orchard-sophia-hero-shot-sophia-road-singapore.png",
+    exterior: "https://orchardsophia.propertybook.sg/wp-content/uploads/2023/07/Orchard-Sophia-Facade-View-from-Entrance.jpg",
     plans: P("https://www.the-orchardsophia.com/wp-content/uploads/2023/08/orchard-sophia-", [
       ["1-bedroom", "1rm-type-a.jpg"],
       ["2-bedroom", "2rm-deluxe-type-b1a.jpg"],
@@ -236,7 +236,7 @@ export const MEDIA = {
     ]),
   },
   "lentoria": {
-    exterior: "https://lentoria-condo.sg/wp-content/uploads/2026/09/Lentoria-Condo-Facade-Aerial-View-Day.jpg",
+    exterior: "https://lentoria-condo.sg/wp-content/uploads/2026/09/Lentoria-Condo-Facade-Aerial-View-Night.jpg",
     plans: P("https://lentoria-condo.sg/wp-content/uploads/2024/02/", [
       ["1-bedroom · 538 sqft", "1-Bedroom-Type-A1-538-sqft.jpg"],
       ["2-bedroom · 700 sqft", "2-Bedroom-Type-B1-700-sqft.jpg"],
@@ -279,7 +279,7 @@ const EXTRA = {
   "grand-dunman": W("https://www.grandsdunman.com.sg/wp-content/uploads/2023/06/", ["dunman-road-condo-dunman-grand-Grand-Block-singapore.jpg", "grand-dunman-condo-by-singhaiyi-near-dakota-mrt-singapore.jpeg"]),
   "norwood-grand": W("https://norwoodsgrand.sg/wp-content/uploads/2024/09/", ["Norwood-Grand-Aerial-Evening-1.jpg", "Norwood-Grand-Cabana-Garden-1.jpg", "Norwood-Grand-tranquil-Swing-1.jpg"]),
   "the-myst": W("https://themyst-condo.sg/wp-content/uploads/", ["2023/06/The-Myst-Condo-Facade-Aerial-View.jpg", "2023/06/The-Myst-Condo-Lap-Pool.jpg", "2023/06/Grand-Arrival-Entrance-at-The-Myst.jpg", "2023/06/The-Myst-Clubhouse-Gym-Overlooking-Pool.jpg", "2026/07/The-Myst-Condo-Facilities-Social-Lounge.jpg"]),
-  "canninghill-piers": W("https://canninghillpier.sg/wp-content/uploads/2023/07/Canninghill-Piers-", ["Facade-Aerial-View-Night.jpg", "Facade-Worm-Eye-View.jpg", "Condo-Facilities-Jogging-Track-and-Playground.jpg"]),
+  "canninghill-piers": W("https://canninghillpier.sg/wp-content/uploads/2023/07/Canninghill-Piers-", ["Facade-Worm-Eye-View.jpg", "Condo-Facilities-Jogging-Track-and-Playground.jpg"]),
   "lentor-mansion": W("https://lentormansion.propertybook.sg/wp-content/uploads/2024/03/Lentor-Mansion-Condo-", ["Facilities-50m-Lap-Swimming-Pool.jpg", "Facilities-Clubhouse-Pool-Evening-View.jpg", "Facilities-Grand-Lawn.jpg", "Facilities-Forest-Pavilion.jpg"]),
   "pinetree-hill": W("https://www.thepinetree-hill.com/wp-content/uploads/2023/08/", ["pinetree-hill-waterwall-vertical-oasis-singapore.jpg"]),
   "hillock-green": W("https://www.thehillock-green.com.sg/wp-content/uploads/2023/10/", ["hillock-green-swimming-pool-lentor-central-condo.jpg", "hillock-green-views-lentor-central-condo-by-united-engineers-china-commnunications-and-soilbuild.jpg"]),
@@ -290,14 +290,14 @@ const EXTRA = {
   "blossoms-by-the-park": W("https://www.blossomscondo.com.sg/wp-content/uploads/2023/02/", ["blossoms-by-the-park-at-slim-barracks-rise-near-buona-vista-mrt-pool-view-singapore.jpg", "blossoms-by-the-park-condo-at-slim-barracks-rise-fusionopolis-drop-off-point-singapore-scaled.jpg"]),
   "the-hill-one-north": W("https://www.thehillatone-north.com/wp-content/uploads/2024/02/the-hill-at-one-north-", ["main-side-perspective-slim-barracks-rise.jpg", "pool-view-slim-barracks-rise.jpg"]),
   "grange-1866": W("https://grange1866condo.sg/wp-content/uploads/2023/06/", ["Grange-1866-Condo-Grand-Arrival-Entrance.jpg", "Grange-1866-Lap-Pool.jpg", "Condo-Facilities-at-Grange-1866.jpg"]),
-  "the-shorefront": W("https://shorefront.sg/wp-content/uploads/2023/0", ["7/Shorefront-Grand-Arrival-Entrance.jpg", "7/Shorefront-Rooftop-Lap-Pool-Overlooking-Changi-Beach.jpg", "8/The-Shorefront-Condo-Facilities-Sky-Pool-and-Sky-Gym.jpg", "8/The-Shorefront-Condo-Facilities-Sky-Bar.jpg"]),
-  "terra-hill": W("https://cdn.sanity.io/images/u1c87m9s/production/", ["e9ce90f63dafe8c43e672e74c41c56898b5a8c24-1536x864.jpg", "5523dc0dc6fc5bd5438d1e30149729c42b106fed-1536x878.jpg"]),
+  "the-shorefront": W("https://shorefront.sg/wp-content/uploads/2023/0", ["7/Shorefront-Grand-Arrival-Entrance.jpg", "7/Shorefront-Rooftop-Lap-Pool-Overlooking-Changi-Beach.jpg", "8/The-Shorefront-Condo-Facilities-Sky-Pool-and-Sky-Gym.jpg"]),
+  "terra-hill": W("https://cdn.sanity.io/images/u1c87m9s/production/", ["5523dc0dc6fc5bd5438d1e30149729c42b106fed-1536x878.jpg"]),
   "hillhaven": W("https://www.hillhaven.com.sg/globalassets/media-library/fareast/hillhaven/", ["gallery/ep01--main-entrance-v1.jpg", "gallery/ep05--50m-pool.jpg", "gallery/ep02--arrival-court.jpg", "gallery/ep08--bbq-pavilion-1.jpg", "overview/approved-perspective-factsheet-1320x495.jpg"]),
   "novo-place": W("https://www.hdbec.sg/wp-content/uploads/2024/10/Novo-Place-EC-@-Tengah_", ["2-1.jpg", "3-1.jpg", "4-1.jpg", "5-1.jpg"]),
-  "orchard-sophia": [...W("https://orchardsophia.propertybook.sg/wp-content/uploads/2023/07/Orchard-Sophia-", ["Facade-View-from-Entrance.jpg", "Facade-View-from-Side-Entrance.jpg", "Condo-Facilities-Rooftop-Lounge.jpg", "Condo-Facilities-Spa-Pool.jpg"]), "https://www.the-orchardsophia.com/wp-content/uploads/2023/08/orchard-sophia-lap-pool-sophia-road-singapore.jpg"],
-  "the-continuum": W("https://the-continuum-condo.com.sg/wp-content/uploads/", ["2026/07/The-Continuum-Grand-Arrival-North-Entrance.jpg", "2023/07/The-Continuum-Condo-Facilities-Swimming-Pool.jpg", "2023/07/The-Continuum-Condo-Facilities-South-Clubhouse.jpg", "2023/07/Panoramic-Views-from-The-Continuum-Condo-Balcony.jpg", "2023/07/Linkway-Bridge-Connecting-Continuum-Condo-North-Site-and-South-Site.jpg"]),
+  "orchard-sophia": [...W("https://orchardsophia.propertybook.sg/wp-content/uploads/2023/07/Orchard-Sophia-", ["Facade-View-from-Side-Entrance.jpg", "Condo-Facilities-Rooftop-Lounge.jpg", "Condo-Facilities-Spa-Pool.jpg"])],
+  "the-continuum": W("https://the-continuum-condo.com.sg/wp-content/uploads/", ["2023/07/The-Continuum-Condo-Facilities-Swimming-Pool.jpg", "2023/07/The-Continuum-Condo-Facilities-South-Clubhouse.jpg", "2023/07/Panoramic-Views-from-The-Continuum-Condo-Balcony.jpg", "2023/07/Linkway-Bridge-Connecting-Continuum-Condo-North-Site-and-South-Site.jpg"]),
   "sora": W("https://thesoracondo.sg/wp-content/uploads/2024/0", ["6/Sora-Facade-Aerial-View-Overlooking-Surroundings.jpg", "1/Sora-Condo-Facilities-Serenity-Swimming-Pool.jpg", "1/Sora-Condo-Facilities-Grand-Arrival-Lobby.jpg", "6/Sora-Condo-Facilities-Family-Pool.jpg", "6/Sora-Condo-Facilities-The-Creek.jpg"]),
-  "lentoria": W("https://lentoria-condo.sg/wp-content/uploads/20", ["26/09/Lentoria-Condo-Facade-Aerial-View-Night.jpg", "24/02/Lentoria-Condo-Facilities-Swimming-Pool-Night-View.jpg", "26/09/Lentoria-Condo-Facilties-Grand-Arrival.jpg", "24/01/Lentoria-Condo-Facilities-Swimming-Pool.jpg"]),
+  "lentoria": W("https://lentoria-condo.sg/wp-content/uploads/20", ["24/02/Lentoria-Condo-Facilities-Swimming-Pool-Night-View.jpg", "26/09/Lentoria-Condo-Facilties-Grand-Arrival.jpg", "24/01/Lentoria-Condo-Facilities-Swimming-Pool.jpg"]),
   "watten-house": [...W("https://wattenhouse.condo-official.sg/wp-content/uploads/2024/02/", ["Hero-2.jpg", "Hero-3.jpg", "Hero-4.jpg"]), "https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-50m-lap-pool-and-poolside-lounge.jpg", "https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-spa-pool-and-lap-pool.jpg"],
 };
 
