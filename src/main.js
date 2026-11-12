@@ -2,7 +2,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./style.css";
 import { PROJECTS, TIERS, TYPE_LABEL, TODAY, COVERAGE } from "./data.js";
-import { MEDIA } from "./media.js";
+import { MEDIA, photosFor } from "./media.js";
 import { openImages, openPdf } from "./viewer.js";
 
 const REGIONS = ["West", "North", "North-East", "East", "Central"].filter((r) => PROJECTS.some((p) => p.region === r));
@@ -238,15 +238,38 @@ const hostOf = (u) => {
 const mediaItems = (p) => {
   const m = MEDIA[p.id];
   if (!m) return [];
-  return [...(m.exterior ? [{ label: "Building (artist's impression)", src: m.exterior }] : []), ...m.plans];
+  return [...photosFor(p.id).map((ph) => ({ label: ph.caption, src: ph.src })), ...m.plans];
 };
+const ARROW_L = '<svg viewBox="0 0 16 16"><path d="M10 4l-4 4 4 4"/></svg>';
+const ARROW_R = '<svg viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"/></svg>';
 function mediaTop(p) {
-  const m = MEDIA[p.id];
-  if (!m || !m.exterior) return "";
-  return `<button class="hero" type="button" data-act="photo" aria-label="View pictures of ${esc(p.name)}">
-      <img src="${esc(m.exterior)}" alt="${esc(p.name)}, artist's impression" loading="lazy" referrerpolicy="no-referrer">
-      <span class="credit">Artist's impression · ${esc(hostOf(m.exterior))}</span>
-    </button>`;
+  const photos = photosFor(p.id);
+  if (!photos.length) return "";
+  const many = photos.length > 1;
+  return `<div class="gallery">
+      <div class="gtrack">${photos.map((ph, i) => `
+        <button class="gslide" type="button" data-act="photo" data-i="${i}" aria-label="View photo ${i + 1} of ${photos.length}">
+          <img src="${esc(ph.src)}" alt="${esc(p.name)}: ${esc(ph.caption)}" loading="${i === 0 ? "eager" : "lazy"}" referrerpolicy="no-referrer" data-cap="${esc(ph.caption)} · ${esc(hostOf(ph.src))}">
+        </button>`).join("")}</div>
+      <span class="credit"></span>
+      ${many ? `<span class="gcount"></span>
+      <button class="gnav prev" type="button" data-act="gprev" aria-label="Previous photo">${ARROW_L}</button>
+      <button class="gnav next" type="button" data-act="gnext" aria-label="Next photo">${ARROW_R}</button>` : ""}
+    </div>`;
+}
+// Keep the caption, counter and arrows in step with the photo showing.
+function syncGallery(g) {
+  const track = g.querySelector(".gtrack");
+  const slides = [...track.children];
+  if (!slides.length) { g.remove(); return; }
+  const i = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / track.clientWidth)));
+  g.querySelector(".credit").textContent = slides[i].querySelector("img").dataset.cap;
+  const c = g.querySelector(".gcount");
+  if (c) c.textContent = `${i + 1} / ${slides.length}`;
+  const prev = g.querySelector(".gnav.prev"), next = g.querySelector(".gnav.next");
+  if (prev) prev.disabled = i === 0;
+  if (next) next.disabled = i === slides.length - 1;
+  if (slides.length < 2) g.querySelectorAll(".gnav, .gcount").forEach((x) => x.remove());
 }
 function mediaPlans(p) {
   const m = MEDIA[p.id];
@@ -341,10 +364,20 @@ function renderDetail() {
   card.querySelector(".f-st").textContent = p.street;
   card.querySelector(".f-note").textContent = p.note;
   // A picture that fails to load is removed instead of showing a broken image.
-  card.querySelectorAll(".hero img, .plan img").forEach((img) => img.addEventListener("error", () => {
-    img.closest(".hero, .plan")?.remove();
+  card.querySelectorAll(".plan img").forEach((img) => img.addEventListener("error", () => {
+    img.closest(".plan")?.remove();
     if (!card.querySelector(".plan, .brochure")) card.querySelector(".plansec")?.remove();
   }));
+  const gal = card.querySelector(".gallery");
+  if (gal) {
+    gal.querySelectorAll("img").forEach((img) => img.addEventListener("error", () => {
+      img.closest(".gslide")?.remove();
+      gal.querySelectorAll(".gslide").forEach((b, k) => { b.dataset.i = k; });
+      syncGallery(gal);
+    }));
+    gal.querySelector(".gtrack").addEventListener("scroll", () => syncGallery(gal), { passive: true });
+    syncGallery(gal);
+  }
   card.hidden = false;
 }
 
@@ -357,7 +390,15 @@ $("detail").addEventListener("click", (e) => {
   if (act === "close") select(null);
   if (act === "collapse") { state.collapsed = !state.collapsed; renderDetail(); }
   if (act === "radius") { state.radius = !state.radius; renderDetail(); updateRing(); }
-  if (act === "photo") openImages(p.name, mediaItems(p), 0);
+  if (act === "photo") {
+    const src = e.target.closest(".gslide")?.querySelector("img")?.getAttribute("src");
+    const items = mediaItems(p);
+    openImages(p.name, items, Math.max(0, items.findIndex((x) => x.src === src)));
+  }
+  if (act === "gprev" || act === "gnext") {
+    const t = e.target.closest(".gallery").querySelector(".gtrack");
+    t.scrollBy({ left: (act === "gnext" ? 1 : -1) * t.clientWidth, behavior: "smooth" });
+  }
   if (act === "plan") {
     const items = mediaItems(p);
     const src = MEDIA[p.id].plans[Number(e.target.closest("[data-i]").dataset.i)].src;

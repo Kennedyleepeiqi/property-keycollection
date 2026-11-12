@@ -814,10 +814,19 @@ button.lg-item { height: 34px; padding: 0 10px; }
 .empty small { display: inline-block; margin-top: 6px; font-size: 14.5px; }
 
 /* ---------- Pictures and floor plans in the card ---------- */
-.hero { position: relative; display: block; width: 100%; margin: 0 0 14px; padding: 0; border: 0; border-radius: 12px; overflow: hidden; background: var(--ink-3); aspect-ratio: 16 / 9; cursor: zoom-in; }
-.hero img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
-.hero:hover img { transform: scale(1.03); }
-.hero .credit { position: absolute; left: 8px; bottom: 8px; padding: 3px 8px; border-radius: 999px; background: rgba(20, 19, 18, 0.72); color: #e6e1d6; font-size: 10.5px; }
+.gallery { position: relative; margin: 0 0 14px; border-radius: 12px; overflow: hidden; background: var(--ink-3); aspect-ratio: 16 / 9; }
+.gtrack { display: flex; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.gtrack::-webkit-scrollbar { display: none; }
+.gslide { flex: 0 0 100%; height: 100%; padding: 0; border: 0; background: none; scroll-snap-align: start; cursor: zoom-in; }
+.gslide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.gallery .credit { position: absolute; left: 8px; bottom: 8px; max-width: calc(100% - 70px); padding: 3px 8px; border-radius: 999px; background: rgba(20, 19, 18, 0.72); color: #e6e1d6; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; }
+.gcount { position: absolute; right: 8px; bottom: 8px; padding: 3px 8px; border-radius: 999px; background: rgba(20, 19, 18, 0.72); color: #fff; font-size: 11px; font-variant-numeric: tabular-nums; pointer-events: none; }
+.gnav { position: absolute; top: 50%; width: 30px; height: 30px; margin-top: -15px; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(20, 19, 18, 0.62); color: #fff; cursor: pointer; opacity: 0; transition: opacity 0.15s; }
+.gnav svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.gnav.prev { left: 8px; } .gnav.next { right: 8px; }
+.gallery:hover .gnav:not(:disabled), .gnav:focus-visible { opacity: 1; }
+.gnav:disabled { opacity: 0 !important; pointer-events: none; }
+@media (hover: none) { .gnav:not(:disabled) { opacity: 0.85; } }
 .mixhead .hint { float: right; letter-spacing: 0.04em; text-transform: none; font-family: inherit; color: #7d776d; }
 .plans { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 .plan { flex: 0 0 112px; scroll-snap-align: start; padding: 0; border: 1px solid #34312d; border-radius: 10px; background: var(--ink-2); color: #e6e1d6; cursor: zoom-in; overflow: hidden; text-align: left; }

@@ -245,7 +245,7 @@ export const MEDIA = {
     ]),
   },
   "watten-house": {
-    exterior: "https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-50m-lap-pool-and-poolside-lounge.jpg",
+    exterior: "https://wattenhouse.condo-official.sg/wp-content/uploads/2024/02/Hero-1.jpg",
     plans: P("https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-", [
       ["3-bedroom", "3-rm-floor-plan-type-c1.jpg"],
       ["3-bedroom + study", "3-rm-study-floor-plan-type-cs1.jpg"],
@@ -254,3 +254,58 @@ export const MEDIA = {
     ]),
   },
 };
+
+// ---------- Extra photos for the gallery at the top of each card ----------
+// The first picture is `exterior` above. BTO extras are real construction photos
+// that people posted on BTOHQ (with the month they were taken).
+const PROG = "https://btohq.sgp1.cdn.digitaloceanspaces.com/users/";
+const prog = (month, list) => list.map((p) => ({ src: `${PROG}${p.replace("/", "/development/bto/")}.jpg`, caption: `Construction progress · ${month}` }));
+const W = (base, files) => files.map((f) => base + f);
+
+const EXTRA = {
+  "kovan-wellspring": prog("Jun 2026", ["7b877ee0100733b2cd122b55917d5866/cdf2325e0c90d8ee31a4f615644c91e9", "7b877ee0100733b2cd122b55917d5866/2bdf05ef406dfe2bcd6a77c44253e25d", "7b877ee0100733b2cd122b55917d5866/d1cfea18f68aed384ce78f486df85b80", "7b877ee0100733b2cd122b55917d5866/48ee5551f318eba80e6c503493907f23"]),
+  "bishan-ridges": [...prog("Jun 2026", ["7b877ee0100733b2cd122b55917d5866/5f5cdcb789aedc3fa8cffc53436c7f3e", "7b877ee0100733b2cd122b55917d5866/250a4dbf22df48198ea10c6272d8ccce", "7b877ee0100733b2cd122b55917d5866/72d0c397d082902fbe867046d0bfd8c8"]), ...prog("Apr 2026", ["1c5b9000d49a0391b5be1a453a773431/2a1bb163e8fe68021d1d8c7fb83a8701"])],
+  "heart-of-yew-tee": [...prog("Oct 2026", ["b6f3472a2e27ccd97b7e154cfdbf5c01/e5da936dd114d9f6eeb82fc3c7c57435"]), ...prog("Sep 2025", ["6af03fc25ac49a2a506b599d19262fc2/cea9738cebee1bc8f6b85e62f5ab5607"]), ...prog("Jul 2025", ["6af03fc25ac49a2a506b599d19262fc2/4fbcff4dcc68f3331464515a533d811d", "6af03fc25ac49a2a506b599d19262fc2/0132cfdfdd9e0c6ac1aba3d712f2352d"])],
+  "keat-hong-grange": prog("Aug 2026", ["9d625da3577dfea1c407bc2a3fb2375b/e5fa68bf89fb0d021c760aa1bbed2bf8", "9d625da3577dfea1c407bc2a3fb2375b/4ba0954fa116701ff2e14f7bd880cc69", "9d625da3577dfea1c407bc2a3fb2375b/40dc90047a6c4b4544cf449ecbf5df4b", "9d625da3577dfea1c407bc2a3fb2375b/ab0f9385cd7d1a7bedf68425430eba3f"]),
+  "lakeside-view": [...prog("Apr 2025", ["6af03fc25ac49a2a506b599d19262fc2/9f487d7ea318a54c942ff101735b3f66"]), ...prog("Dec 2024", ["b848ed6e9d742acf3b61c06af19c3efc/72e9a02b7d6d7eb56b99509b58e96b58", "b848ed6e9d742acf3b61c06af19c3efc/d0f72c59b511ede1a5bdc053bf7b9730", "b848ed6e9d742acf3b61c06af19c3efc/23558ca7f1540d5d838a5a0d89d63a87"])],
+  "kent-heights": [...prog("Dec 2025", ["91f9d0fa0c6c43c14e0c1b0c4e3bf9f2/32847d1be1fa9c0579cd80410f72695b"]), ...prog("Nov 2025", ["91f9d0fa0c6c43c14e0c1b0c4e3bf9f2/96098ab1cd47cf78438d3cc4b6a2f69e", "91f9d0fa0c6c43c14e0c1b0c4e3bf9f2/41cb1799d8defa1474913df4081c9869", "91f9d0fa0c6c43c14e0c1b0c4e3bf9f2/330502c4c68ce1c0ad0e754518e7d418"])],
+  "towner-residences": prog("Dec 2025", ["38abfbc525b053fe1357e8865281c3ad/247f209cc278a5e20daa2685bab9a3b7", "38abfbc525b053fe1357e8865281c3ad/ddb91bd07bd579733f8b4017a5268502", "38abfbc525b053fe1357e8865281c3ad/33d3d0c1e6dde7ebfd87ca68a722020e", "38abfbc525b053fe1357e8865281c3ad/2297dbc893603a4b5772d59553ccfbff"]),
+  "garden-waterfront": prog("Aug 2026", ["0f87204d197248cb8b099683884b7176/98e2d464852ee8eafbfecccc629dda5a", "0f87204d197248cb8b099683884b7176/e49da9235fe1500f34f46923b0340741", "0f87204d197248cb8b099683884b7176/5cfeb3a256edf5f73cb2af9de2455e04", "0f87204d197248cb8b099683884b7176/1e5c85cc927267a089efae90f320c15e"]),
+  "woodlands-south-plains": [...prog("Jul 2025", ["1582e02a0b7a58606a0ed3006b93f49d/8aafa9308d77484e78e4161123b09474", "1582e02a0b7a58606a0ed3006b93f49d/b2f2847aca630880b874322768e8c8a5"]), ...prog("Jun 2025", ["1582e02a0b7a58606a0ed3006b93f49d/58139838d3d84d3355468d7fd9d401d6", "1582e02a0b7a58606a0ed3006b93f49d/dc4688706b591d22144ab55fdb4726c3"])],
+  "telok-blangah-beacon": [...prog("Jul 2026", ["ea7c2be8189f12f4ffee6ad721304a69/17a40db63feb8166ba185a11a9e7ebc4"]), ...prog("Apr 2026", ["1873bfa44727928c20303392d502e72b/6604fa33b050331e6ce794f7d50c8b0d", "1873bfa44727928c20303392d502e72b/7f4c99bccc9b4958966119a7728287f0", "1873bfa44727928c20303392d502e72b/9c3e32ba2519fb93a03adda6c3efb580"])],
+  "parc-meadow": [...prog("Nov 2025", ["a0e1cb167ec08d3ee6ba926201fe292c/4169dffc8cae8fff42f7d9c19c4de1c8"]), ...prog("Aug 2025", ["1582e02a0b7a58606a0ed3006b93f49d/16ce5931cdccac83c747b4c7c638bf70", "1582e02a0b7a58606a0ed3006b93f49d/25cfbd0f60440a5ec977d24971f1fb1e", "1642250d138d000872b66d9eac4ed379/b3041d7b05901cffe03d048378421f1e"])],
+  "sin-ming-residences": prog("Dec 2025", ["38abfbc525b053fe1357e8865281c3ad/176feb2ca453e4d80acdd1ddb131efc1", "38abfbc525b053fe1357e8865281c3ad/863e1cd3574922b3873c051e1c5c8cd8", "38abfbc525b053fe1357e8865281c3ad/e492a95c319d6e8a22211f94f9e7ab49", "38abfbc525b053fe1357e8865281c3ad/03e9960c15eb93fbacf9dc15b8a15423"]),
+
+  "grand-dunman": W("https://www.grandsdunman.com.sg/wp-content/uploads/2023/06/", ["dunman-road-condo-dunman-grand-Grand-Block-singapore.jpg", "grand-dunman-condo-by-singhaiyi-near-dakota-mrt-singapore.jpeg"]),
+  "norwood-grand": W("https://norwoodsgrand.sg/wp-content/uploads/2024/09/", ["Norwood-Grand-Aerial-Evening-1.jpg", "Norwood-Grand-Cabana-Garden-1.jpg", "Norwood-Grand-tranquil-Swing-1.jpg"]),
+  "the-myst": W("https://themyst-condo.sg/wp-content/uploads/", ["2023/06/The-Myst-Condo-Facade-Aerial-View.jpg", "2023/06/The-Myst-Condo-Lap-Pool.jpg", "2023/06/Grand-Arrival-Entrance-at-The-Myst.jpg", "2023/06/The-Myst-Clubhouse-Gym-Overlooking-Pool.jpg", "2026/07/The-Myst-Condo-Facilities-Social-Lounge.jpg"]),
+  "canninghill-piers": W("https://canninghillpier.sg/wp-content/uploads/2023/07/Canninghill-Piers-", ["Facade-Aerial-View-Night.jpg", "Facade-Worm-Eye-View.jpg", "Condo-Facilities-Jogging-Track-and-Playground.jpg"]),
+  "lentor-mansion": W("https://lentormansion.propertybook.sg/wp-content/uploads/2024/03/Lentor-Mansion-Condo-", ["Facilities-50m-Lap-Swimming-Pool.jpg", "Facilities-Clubhouse-Pool-Evening-View.jpg", "Facilities-Grand-Lawn.jpg", "Facilities-Forest-Pavilion.jpg"]),
+  "pinetree-hill": W("https://www.thepinetree-hill.com/wp-content/uploads/2023/08/", ["pinetree-hill-waterwall-vertical-oasis-singapore.jpg"]),
+  "hillock-green": W("https://www.thehillock-green.com.sg/wp-content/uploads/2023/10/", ["hillock-green-swimming-pool-lentor-central-condo.jpg", "hillock-green-views-lentor-central-condo-by-united-engineers-china-commnunications-and-soilbuild.jpg"]),
+  "hill-house": W("https://www.hillhouse-condo.com/wp-content/uploads/2022/10/", ["hillhouse_pes_1.jpg", "hillhouse_pes_2.jpg", "hillhouse_pes_3.jpg"]),
+  "ardor-residence": W("https://www.ardor-residence.com.sg/wp-content/uploads/2024/01/", ["Ardor-Residence-Swimming-Pool.jpg", "Ardor-Residence-Showroom.jpg"]),
+  "lakegarden-residences": W("https://lakegarden-residence.sg/wp-content/uploads/2023/0", ["7/Lakegarden-Residences-Facade-View-from-Lake.jpg", "7/Lakegarden-Residences-Facade-Aerial-View-at-Night.jpg", "6/Lakegarden-Residences-Lap-Pool-and-Gym-View.jpg", "7/Lakegarden-Residences-Condo-Facilities-Panoramic-Views-from-Sky-Lounge.jpg"]),
+  "lentor-hills-residences": W("https://esingaporeproperty.sg/wp-content/uploads/2018/04/", ["Lentor-Hill-Condo-View-from-Lentor-Hills-Drive.jpeg", "Lentor-Hill-Residence-View-of-Blocks.jpeg", "Lentor-Hills-Condo-Facilities-and-Pool.jpeg", "View-of-Pool-and-Gym.jpeg"]),
+  "blossoms-by-the-park": W("https://www.blossomscondo.com.sg/wp-content/uploads/2023/02/", ["blossoms-by-the-park-at-slim-barracks-rise-near-buona-vista-mrt-pool-view-singapore.jpg", "blossoms-by-the-park-condo-at-slim-barracks-rise-fusionopolis-drop-off-point-singapore-scaled.jpg"]),
+  "the-hill-one-north": W("https://www.thehillatone-north.com/wp-content/uploads/2024/02/the-hill-at-one-north-", ["main-side-perspective-slim-barracks-rise.jpg", "pool-view-slim-barracks-rise.jpg"]),
+  "grange-1866": W("https://grange1866condo.sg/wp-content/uploads/2023/06/", ["Grange-1866-Condo-Grand-Arrival-Entrance.jpg", "Grange-1866-Lap-Pool.jpg", "Condo-Facilities-at-Grange-1866.jpg"]),
+  "the-shorefront": W("https://shorefront.sg/wp-content/uploads/2023/0", ["7/Shorefront-Grand-Arrival-Entrance.jpg", "7/Shorefront-Rooftop-Lap-Pool-Overlooking-Changi-Beach.jpg", "8/The-Shorefront-Condo-Facilities-Sky-Pool-and-Sky-Gym.jpg", "8/The-Shorefront-Condo-Facilities-Sky-Bar.jpg"]),
+  "terra-hill": W("https://cdn.sanity.io/images/u1c87m9s/production/", ["06dcf494e63c2bd3bc8bdf1497b7f85e7734f899-1536x1117.jpg", "d607230952e7431178e1f3f8d3963f44971b526a-1536x1117.jpg", "6647e77a4e637290c3962839541705d8d3c6f039-1536x1117.jpg", "e9ce90f63dafe8c43e672e74c41c56898b5a8c24-1536x864.jpg", "5523dc0dc6fc5bd5438d1e30149729c42b106fed-1536x878.jpg"]),
+  "hillhaven": W("https://www.hillhaven.com.sg/globalassets/media-library/fareast/hillhaven/", ["gallery/ep01--main-entrance-v1.jpg", "gallery/ep05--50m-pool.jpg", "gallery/ep02--arrival-court.jpg", "gallery/ep08--bbq-pavilion-1.jpg", "overview/approved-perspective-factsheet-1320x495.jpg"]),
+  "novo-place": W("https://www.hdbec.sg/wp-content/uploads/2024/10/Novo-Place-EC-@-Tengah_", ["2-1.jpg", "3-1.jpg", "4-1.jpg", "5-1.jpg"]),
+  "orchard-sophia": [...W("https://orchardsophia.propertybook.sg/wp-content/uploads/2023/07/Orchard-Sophia-", ["Facade-View-from-Entrance.jpg", "Facade-View-from-Side-Entrance.jpg", "Condo-Facilities-Rooftop-Lounge.jpg", "Condo-Facilities-Spa-Pool.jpg"]), "https://www.the-orchardsophia.com/wp-content/uploads/2023/08/orchard-sophia-lap-pool-sophia-road-singapore.jpg"],
+  "the-continuum": W("https://the-continuum-condo.com.sg/wp-content/uploads/", ["2026/07/The-Continuum-Grand-Arrival-North-Entrance.jpg", "2023/07/The-Continuum-Condo-Facilities-Swimming-Pool.jpg", "2023/07/The-Continuum-Condo-Facilities-South-Clubhouse.jpg", "2023/07/Panoramic-Views-from-The-Continuum-Condo-Balcony.jpg", "2023/07/Linkway-Bridge-Connecting-Continuum-Condo-North-Site-and-South-Site.jpg"]),
+  "sora": W("https://thesoracondo.sg/wp-content/uploads/2024/0", ["6/Sora-Facade-Aerial-View-Overlooking-Surroundings.jpg", "1/Sora-Condo-Facilities-Serenity-Swimming-Pool.jpg", "1/Sora-Condo-Facilities-Grand-Arrival-Lobby.jpg", "6/Sora-Condo-Facilities-Family-Pool.jpg", "6/Sora-Condo-Facilities-The-Creek.jpg"]),
+  "lentoria": W("https://lentoria-condo.sg/wp-content/uploads/20", ["26/09/Lentoria-Condo-Facade-Aerial-View-Night.jpg", "24/02/Lentoria-Condo-Facilities-Swimming-Pool-Night-View.jpg", "26/09/Lentoria-Condo-Facilties-Grand-Arrival.jpg", "24/01/Lentoria-Condo-Facilities-Swimming-Pool.jpg"]),
+  "watten-house": [...W("https://wattenhouse.condo-official.sg/wp-content/uploads/2024/02/", ["Hero-2.jpg", "Hero-3.jpg", "Hero-4.jpg"]), "https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-50m-lap-pool-and-poolside-lounge.jpg", "https://www.thewatten-house.com/wp-content/uploads/2023/11/watten-house-spa-pool-and-lap-pool.jpg"],
+};
+
+// All photos for a project: [{ src, caption }], building first.
+export function photosFor(id) {
+  const m = MEDIA[id];
+  if (!m) return [];
+  const first = m.exterior ? [{ src: m.exterior, caption: "Artist's impression" }] : [];
+  const extra = (EXTRA[id] || []).map((x) => (typeof x === "string" ? { src: x, caption: "Artist's impression" } : x));
+  return [...first, ...extra];
+}
