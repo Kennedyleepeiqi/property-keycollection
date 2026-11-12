@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/bto-pdf/:path*", "destination": "https://btohq.sgp1.cdn.digitaloceanspaces.com/bto/:path*" }
+    { "source": "/bto-pdf/:path*", "destination": "https://btohq.sgp1.cdn.digitaloceanspaces.com/bto/:path*" },
+    { "source": "/hdb-pdf/:path*", "destination": "https://assets.hdb.gov.sg/residential/buying-a-flat/finding-a-flat/sales-brochure/:path*" }
   ]
 }

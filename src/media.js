@@ -11,6 +11,9 @@ const bto = (launch, slug) => ({
   plans: [],
 });
 
+const HDB_BROCHURES = "https://assets.hdb.gov.sg/residential/buying-a-flat/finding-a-flat/sales-brochure";
+const hdb = (m, path) => ({ ...m, brochure: `/hdb-pdf/${path}`, brochureSrc: `${HDB_BROCHURES}/${path}` });
+
 // Build plan list from a folder + [label, file] pairs.
 const P = (base, list) => list.map(([label, file]) => ({ label, src: base + file }));
 
@@ -26,8 +29,9 @@ export const MEDIA = {
   "garden-waterfront": bto("nov-2022-bto", "garden-waterfront-i-ii-tengah"),
   "woodlands-south-plains": bto("aug-2022-bto", "woodlands-south-plains"),
   "telok-blangah-beacon": bto("may-2021-bto", "telok-blangah-beacon"),
-  "parc-meadow": bto("may-2023-bto", "parc-meadow-tengah"),
-  "sin-ming-residences": bto("dec-2023-bto", "sin-ming-residences"),
+  // BTOHQ has no brochure for these two, so use HDB's own copy (/hdb-pdf/ rewrite).
+  "parc-meadow": hdb(bto("may-2023-bto", "parc-meadow-tengah"), "23MAYBTO_pdf_selection/parc_meadow_@_tengah.pdf"),
+  "sin-ming-residences": hdb(bto("dec-2023-bto", "sin-ming-residences"), "23DECBTO_pdf_selection/sin_ming_residences.pdf"),
 
   // ---------- Condos and ECs ----------
   "grand-dunman": {
