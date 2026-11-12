@@ -228,6 +228,12 @@ function renderTotals(vis) {
 
 /* ---------------- Detail card ---------------- */
 // WhatsApp share: a short line about the project plus a link that opens the map on it.
+// Photos and floor plans open a Google Images search, so new projects work without extra setup.
+const imageSearch = (p, extra) => {
+  const kind = p.kind === "bto" ? "BTO" : p.kind === "ec" ? "EC" : "condo";
+  const q = extra ? `${p.name} ${kind} ${extra}` : `${p.name} ${kind} Singapore`;
+  return `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(q)}`;
+};
 const projectLink = (p) => `${location.origin}${location.pathname}#${p.id}`;
 const waLink = (p) => {
   const when = p.tier === "now" ? whenText(p) : `Keys due ${topLabel(p)}`;
@@ -291,6 +297,8 @@ function renderDetail() {
       <div class="mixhead">${isPrivate(p) ? "Unit mix" : "Flat mix"}</div>
       <div class="mix">${mix}</div>
       <div class="actions">
+        <a class="btn ghost" href="${imageSearch(p, "")}" target="_blank" rel="noopener" title="Pictures of the building, opens Google Images">Photos</a>
+        <a class="btn ghost" href="${imageSearch(p, "floor plan")}" target="_blank" rel="noopener" title="Unit layouts, opens Google Images">Floor plans</a>
         <a class="btn primary" href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lng}" target="_blank" rel="noopener">Google Maps</a>
         <button class="btn ghost" type="button" data-act="copy">Copy location</button>
         <a class="btn ghost" style="grid-column: 1 / -1" href="${waLink(p)}" target="_blank" rel="noopener">Share on WhatsApp</a>
@@ -584,21 +592,26 @@ function syncBaseLabels() {
   } catch { /* style without these options */ }
 }
 
+// Map or satellite photos. Place names are our own Singapore-only layer, so the base map's are off.
+const MAP_STYLE = "mapbox://styles/mapbox/standard";
+const SAT_STYLE = "mapbox://styles/mapbox/standard-satellite";
+const MAP_BASEMAP = { lightPreset: "day", theme: "faded", showPointOfInterestLabels: false, showTransitLabels: false, showRoadLabels: false, showPlaceLabels: false };
+const SAT_BASEMAP = { lightPreset: "day", showPointOfInterestLabels: false, showTransitLabels: false, showRoadLabels: false, showPlaceLabels: false };
+let satellite = false;
+function setSatellite(on) {
+  if (!map || on === satellite) return;
+  satellite = on;
+  map.setStyle(on ? SAT_STYLE : MAP_STYLE, { diff: false, config: { basemap: on ? SAT_BASEMAP : MAP_BASEMAP } });
+  $("btnSat").setAttribute("aria-pressed", String(on));
+  $("btnSat").querySelector(".lbl").textContent = on ? "Map view" : "Satellite";
+}
+
 function initMap(token) {
   mapboxgl.accessToken = token;
   map = new mapboxgl.Map({
     container: "map",
-    style: "mapbox://styles/mapbox/standard",
-    config: {
-      basemap: {
-        lightPreset: "day",
-        theme: "faded",
-        showPointOfInterestLabels: false,
-        showTransitLabels: false,
-        showRoadLabels: false,
-        showPlaceLabels: false, // replaced by our own Singapore-only place names
-      },
-    },
+    style: MAP_STYLE,
+    config: { basemap: MAP_BASEMAP },
     bounds: SG_VIEW,
     fitBoundsOptions: { padding: mapPadding() },
     maxBounds: HARD_LIMIT,
@@ -621,7 +634,9 @@ function initMap(token) {
 
   map.on("style.load", () => {
     roadLabelsOn = null;
+    try { map.setConfigProperty("basemap", "showPlaceLabels", false); map.setConfigProperty("basemap", "showPointOfInterestLabels", false); } catch { /* style without these options */ }
     syncBaseLabels();
+    if (map.getSource("countries")) return; // our layers are already on this style
 
     // Fade everything outside Singapore so Johor and the Riau islands recede.
     map.addSource("countries", { type: "vector", url: "mapbox://mapbox.country-boundaries-v1" });
@@ -632,7 +647,7 @@ function initMap(token) {
       "source-layer": "country_boundaries",
       slot: "top",
       filter: ["all", ["!=", ["get", "iso_3166_1"], "SG"], ["match", ["get", "worldview"], ["all", "US"], true, false]],
-      paint: { "fill-color": "#b5eafc", "fill-opacity": 1, "fill-emissive-strength": 1 },
+      paint: { "fill-color": satellite ? "#15303f" : "#b5eafc", "fill-opacity": 1, "fill-emissive-strength": 1 },
     });
     // Place names for Singapore only, so no Malaysian or Indonesian towns are named.
     map.addSource("streets", { type: "vector", url: "mapbox://mapbox.mapbox-streets-v8" });
@@ -653,7 +668,9 @@ function initMap(token) {
         "text-max-width": 7,
         "symbol-sort-key": ["get", "symbolrank"],
       },
-      paint: { "text-color": "#6f6a62", "text-halo-color": "rgba(255,255,255,0.9)", "text-halo-width": 1.2, "text-emissive-strength": 1 },
+      paint: satellite
+        ? { "text-color": "#ffffff", "text-halo-color": "rgba(0,0,0,0.75)", "text-halo-width": 1.4, "text-emissive-strength": 1 }
+        : { "text-color": "#6f6a62", "text-halo-color": "rgba(255,255,255,0.9)", "text-halo-width": 1.2, "text-emissive-strength": 1 },
     }));
 
     map.addSource("ring", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
@@ -759,6 +776,7 @@ document.addEventListener("keydown", (e) => {
 
 /* ---------------- Tools ---------------- */
 $("btnOverview").addEventListener("click", () => select(null));
+$("btnSat").addEventListener("click", () => setSatellite(!satellite));
 // Phone: the list is a bottom sheet that peeks up from the bottom and opens to almost full height.
 function setSheet(open) {
   $("side").classList.toggle("open", open);
